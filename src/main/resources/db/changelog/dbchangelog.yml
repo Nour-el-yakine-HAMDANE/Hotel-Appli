@@ -1,0 +1,110 @@
+databaseChangeLog:
+  - changeSet:
+      id: Hotel table creation
+      author: Nour el yakine
+      changes:
+        - createTable:
+            tableName: hotel
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(255)
+              - column:
+                  name: hotel_key
+                  type: varchar(255)
+                  constraints:
+                    unique: true
+
+  - changeSet:
+      id: Notification table creation
+      author: Nour el yakine
+      changes:
+        - createTable:
+            tableName: notification
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: hotel_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_notification_hotel
+              - column:
+                  name: message
+                  type: varchar(255)
+              - column:
+                  name: creation_date
+                  type: timestamp
+
+  - changeSet:
+      id: Notification_performance table creation
+      author: Nour el yakine
+      changes:
+        - createTable:
+            tableName: notification_performance
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: notification_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_notification_performance_notification
+              - column:
+                  name: date
+                  type: timestamp
+              - column:
+                  name: impressions
+                  type: int
+              - column:
+                  name: clicks
+                  type: int
+              - column:
+                  name: ctr
+                  type: double
+              - column:
+                  name: conversions
+                  type: int
+              - column:
+                  name: cvr
+                  type: double
+  - changeSet:
+      id: adding indexes
+      author: Nour el yakine
+      changes:
+        - createIndex:
+            indexName: idx_hotel_id
+            tableName: notification
+            columns:
+              - column:
+                  name: hotel_id
+
+        - createIndex:
+            indexName: idx_notification_id
+            tableName: notification_performance
+            columns:
+              - column:
+                  name: notification_id
+
+        - createIndex:
+            indexName: idx_date
+            tableName: notification_performance
+            columns:
+              - column:
+                  name: date
